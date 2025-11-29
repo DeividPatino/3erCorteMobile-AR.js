@@ -1,2 +1,33 @@
 :host { display: block; }
-ion-button { width: 100%; }
+ion-button {
+	width: 100%;
+	--border-radius: 14px;
+	--padding-top: 14px;
+	--padding-bottom: 14px;
+	font-weight: 600;
+	letter-spacing: .6px;
+	position: relative;
+	overflow: hidden;
+}
+ion-button::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background: linear-gradient(140deg,#6a35f2,#8d54ff 55%,#b289ff);
+	opacity: .92;
+	transition: opacity .3s ease;
+	z-index: 0;
+}
+ion-button::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.35), transparent 70%);
+	opacity: 0;
+	transition: opacity .35s ease;
+	z-index: 1;
+}
+ion-button:hover::after { opacity: .6; }
+ion-button:hover::before { opacity: 1; }
+ion-button .button-native { z-index: 2; }
+ion-spinner { width: 22px; height: 22px; }

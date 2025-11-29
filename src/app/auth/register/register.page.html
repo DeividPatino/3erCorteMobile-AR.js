@@ -4,6 +4,10 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
-  <auth-form actionLabel="Registrarme" altLabel="Ya tengo cuenta" altRoute="/login" (submitCreds)="onSubmit($event)"></auth-form>
+<ion-content>
+  <div class="auth-box">
+    <h1>Crea tu cuenta</h1>
+    <div class="sub">Regístrate para empezar</div>
+    <auth-form actionLabel="Registrarme" altLabel="Ya tengo cuenta" altRoute="/login" (submitCreds)="onSubmit($event)"></auth-form>
+  </div>
 </ion-content>

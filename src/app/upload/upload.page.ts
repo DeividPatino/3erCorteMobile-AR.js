@@ -111,14 +111,15 @@ export class UploadPage {
 
       // 4. Insertar registro con descripción + user_id + model_url (si existe)
       const uid = this.firebaseAuth.currentUser()?.uid || null;
-      const inserted = await this.supabaseService.addTarget(this.targetName, markerURL, previewURL, this.description.trim(), uid);
-      if (modelURL && inserted?.[0]?.id) {
-        try {
-          await this.supabaseService.updateTarget(inserted[0].id, { model_url: modelURL });
-        } catch (e) {
-          console.warn('No se pudo actualizar model_url tras insert:', e);
-        }
-      }
+      const inserted = await this.supabaseService.addTarget({
+        name: this.targetName.trim(),
+        marker_url: markerURL,
+        preview_url: previewURL,
+        description: this.description.trim(),
+        user_id: uid || undefined,
+        marker_type: 'pattern',
+        model_url: modelURL || undefined
+      });
       alert('Target subido correctamente');
       this.targetName = '';
       this.previewFile = undefined as any;

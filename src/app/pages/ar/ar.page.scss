@@ -28,5 +28,23 @@ canvas, .a-canvas {
 /* Asegurar escena transparente para evitar bloque negro */
 a-scene { background:transparent !important; }
 
+/* Overlay UI placeholder (si agregas botones flotantes) */
+.ar-overlay-controls {
+	position: fixed;
+	top: .75rem; right: .75rem;
+	display: flex;
+	flex-direction: column;
+	gap: .5rem;
+	z-index: 20;
+}
+.ar-overlay-controls ion-button {
+	--background: rgba(255,255,255,0.85);
+	--color: var(--ion-color-primary);
+	backdrop-filter: blur(6px);
+	border-radius: 12px;
+	font-size: .65rem;
+	height: 32px;
+}
+
 /* Eliminar footer (ya removido del HTML) */
 .marker-detected ion-footer { background:rgba(0,128,0,.55); }

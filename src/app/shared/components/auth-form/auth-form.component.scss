@@ -1,2 +1,70 @@
-ion-item { --padding-start: 0; }
-app-button { margin-top: 12px; }
+form, :host { width: 100%; display:block; }
+ion-item {
+	--padding-start: 14px; /* restore left padding so floating label has space */
+	--inner-padding-end: 10px;
+	--border-radius: 12px;
+	margin-bottom: .85rem;
+	background: #ffffff;
+	border: 1px solid var(--app-border-color);
+	box-shadow: var(--app-shadow-sm);
+	transition: border-color .25s ease, box-shadow .25s ease;
+	position: relative;
+	overflow: visible; /* ensure label not clipped */
+}
+ion-item.item-has-focus { border-color: var(--ion-color-primary); box-shadow: 0 0 0 3px rgba(106,53,242,0.15); }
+ion-label {
+	font-weight:600;
+	letter-spacing:.4px;
+	color:#5d2fd5;
+	z-index:2;
+	position:relative;
+	background:transparent;
+}
+/* Input base: remove inner bordered box to avoid double frame */
+ion-input {
+	--padding-start: 12px;
+	--color: #1f1f2b;
+	font-size:.85rem;
+	background: transparent !important;
+	border: none !important;
+	box-shadow: none !important;
+}
+ion-input::part(native) { color:#1f1f2b; }
+/* Fallback for internal input element */
+ion-input input {
+	color:#1f1f2b !important;
+	font-weight:500;
+	background: transparent !important;
+}
+ion-item.item-has-focus ion-label,
+ion-item.item-has-value ion-label {
+	color: var(--ion-color-primary);
+	opacity:1;
+	font-weight:600;
+	background:#ffffff; /* ensure contrast when floating */
+	padding: 0 4px;
+	border-radius:4px;
+}
+/* Ensure floating label stays readable when shrunk */
+ion-item.item-has-value ion-label { font-size:.7rem; letter-spacing:.6px; }
+
+/* Force custom floating effect: keep original but ensure label not hidden */
+ion-item ion-label[position="floating"] {
+	background:#ffffff;
+	padding:0 4px;
+	transition: all .18s ease;
+}
+ion-item.item-has-focus ion-label[position="floating"],
+ion-item.item-has-value ion-label[position="floating"] {
+	transform: translateY(-6px);
+	box-shadow:0 0 0 2px #ffffff;
+}
+/* Placeholder contrast */
+ion-input::part(native)::placeholder { color:#6c6c7a; opacity:.85; }
+app-button { margin-top: 4px; }
+ion-button[fill="clear"] {
+	--color: var(--ion-color-primary);
+	font-size: .75rem;
+	font-weight: 600;
+	letter-spacing: .5px;
+}

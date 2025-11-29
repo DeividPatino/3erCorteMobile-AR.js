@@ -1,0 +1,18 @@
+/* Shell layout & toolbar branding */
+ion-toolbar {
+	--background: #ffffff;
+	--color: var(--ion-color-primary);
+	border-bottom: 1px solid var(--app-border-color);
+}
+ion-title { font-weight: 700; letter-spacing: .6px; }
+
+.app-shell {
+	min-height: 100vh;
+	background: linear-gradient(180deg,#ffffff 0%,#f5f7fb 60%,#f0e9ff 100%);
+}
+
+/* Footer (si se agrega más adelante) */
+ion-footer {
+	--background: #ffffff;
+	border-top: 1px solid var(--app-border-color);
+}

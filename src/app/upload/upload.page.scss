@@ -1,0 +1,49 @@
+ion-content {
+	--background: linear-gradient(160deg,#ffffff 0%,#f5f7fb 55%,#f0e9ff 100%);
+}
+
+.upload-shell {
+	max-width: 680px;
+	margin: 0 auto;
+	padding: clamp(1rem, 3vw, 2rem);
+}
+
+.upload-card {
+	background: var(--app-surface);
+	border: 1px solid var(--app-border-color);
+	border-radius: var(--app-radius-lg);
+	box-shadow: var(--app-shadow-sm);
+	padding: 1.1rem 1.25rem;
+	transition: box-shadow .25s ease, transform .25s ease;
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+}
+.upload-card:hover { box-shadow: var(--app-shadow-md); }
+
+.file-row { display:flex; flex-direction:column; gap:.35rem; }
+.file-row label { font-size:.7rem; font-weight:600; letter-spacing:.5px; text-transform:uppercase; color:#5d2fd5; }
+
+input[type="file"] {
+	background:#ffffff;
+	border:1px solid var(--app-border-color);
+	border-radius: var(--app-radius-md);
+	padding:.6rem .75rem;
+	font-size:.75rem;
+	cursor:pointer;
+}
+input[type="file"]:hover { border-color: var(--ion-color-primary); }
+
+.actions {
+	display:flex;
+	gap:.75rem;
+	justify-content:flex-end;
+	margin-top:.5rem;
+}
+
+ion-button[fill="outline"] { --border-color: var(--ion-color-primary); }
+
+@media (max-width: 700px) {
+	.upload-card { padding: 1rem; }
+	input[type="file"] { font-size:.7rem; }
+}

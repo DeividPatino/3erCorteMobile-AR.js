@@ -51,15 +51,27 @@ export class SupabaseService {
     return data;
   }
 
-  async addTarget(name: string, markerUrl: string, preview: string, description: string = '', userId: string | null = null) {
-    // Intento principal incluyendo user_id; si falla por columna inexistente, reintento sin ella.
-    let insertPayload: any = {
-      name,
-      description,
-      marker_url: markerUrl,
-      preview_url: preview,
-      user_id: userId,
-      model_url: null // se establecerá si se provee luego en update o soportado desde formulario extendido
+  async addTarget(opts: {
+    name: string;
+    description?: string;
+    marker_type?: 'pattern' | 'nft';
+    marker_url: string;
+    preview_url?: string | null;
+    model_url?: string | null;
+    model_scale?: string;
+    model_rotation?: string;
+    user_id?: string | null;
+  }) {
+    const insertPayload: any = {
+      name: opts.name,
+      description: opts.description || '',
+      marker_type: opts.marker_type || 'pattern',
+      marker_url: opts.marker_url,
+      preview_url: opts.preview_url || null,
+      model_url: opts.model_url || null,
+      model_scale: opts.model_scale || '1.5 1.5 1.5',
+      model_rotation: opts.model_rotation || '0 0 0',
+      user_id: opts.user_id || null
     };
     let { data, error } = await this.supabase.from('targets').insert(insertPayload).select('*');
     if (error && error.message?.includes('user_id')) {
@@ -73,7 +85,7 @@ export class SupabaseService {
     return data;
   }
 
-  async updateTarget(id: number, fields: { name?: string; description?: string; marker_url?: string; preview_url?: string; user_id?: string; model_url?: string }) {
+  async updateTarget(id: number, fields: { name?: string; description?: string; marker_type?: string; marker_url?: string; preview_url?: string; user_id?: string; model_url?: string; model_scale?: string; model_rotation?: string }) {
     const { data, error } = await this.supabase
       .from('targets')
       .update(fields)

@@ -89,7 +89,9 @@ export class ArPage implements OnInit, OnDestroy, AfterViewInit {
     if (target.model_url) {
       const entity = document.createElement('a-entity');
       entity.setAttribute('gltf-model', target.model_url);
-      entity.setAttribute('scale', target.model_scale || '1 1 1');
+      // Escala ampliada por defecto (si no se especifica en BD)
+      const enlargedScale = target.model_scale ? target.model_scale : '1.5 1.5 1.5';
+      entity.setAttribute('scale', enlargedScale);
       entity.setAttribute('rotation', target.model_rotation || '0 0 0');
       entity.setAttribute('position', '0 0 0');
       marker.appendChild(entity);
@@ -98,15 +100,16 @@ export class ArPage implements OnInit, OnDestroy, AfterViewInit {
       img.setAttribute('src', target.preview_url);
       img.setAttribute('rotation', '-90 0 0');
       img.setAttribute('position', '0 0 0');
-      img.setAttribute('width', '1');
-      img.setAttribute('height', '1');
+      // Aumentar tamaño de imagen para hacerla más visible
+      img.setAttribute('width', '2');
+      img.setAttribute('height', '2');
       marker.appendChild(img);
     } else {
       const box = document.createElement('a-box');
       box.setAttribute('color', '#FF0000');
-      box.setAttribute('depth', '0.1');
-      box.setAttribute('height', '0.5');
-      box.setAttribute('width', '0.5');
+      box.setAttribute('depth', '0.2');
+      box.setAttribute('height', '1');
+      box.setAttribute('width', '1');
       marker.appendChild(box);
     }
   }

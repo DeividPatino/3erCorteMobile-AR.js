@@ -5,20 +5,24 @@
 </ion-header>
 
 <ion-content class="ion-padding">
+  <div class="targets-wrapper">
   <ng-container *ngIf="loading; else listTpl">
     <ion-spinner name="dots"></ion-spinner>
   </ng-container>
   <ng-template #listTpl>
-    <ion-list *ngIf="targets.length; else emptyTpl">
-      <ion-item *ngFor="let t of targets" (click)="openAR(t)">
-        <ion-label>
-          <h2>{{ t.name }}</h2>
-          <p *ngIf="t.description">{{ t.description }}</p>
-          <p class="url" *ngIf="t.marker_url">{{ t.marker_url }}</p>
-        </ion-label>
-        <ion-avatar slot="end" *ngIf="t.preview_url">
+    <ion-list class="targets-list" *ngIf="targets.length; else emptyTpl">
+      <ion-item class="target-item" *ngFor="let t of targets" (click)="openAR(t)">
+        <ion-avatar slot="start" *ngIf="t.preview_url" class="preview-avatar">
           <img [src]="t.preview_url" alt="preview" />
         </ion-avatar>
+        <ion-label class="target-label">
+          <div class="title-row">
+            <h2>{{ t.name }}</h2>
+            <span class="badge type" [class.nft]="t.marker_type==='nft'" [class.pattern]="t.marker_type!=='nft'">{{ t.marker_type || 'pattern' }}</span>
+            <span class="badge asset" [class.model]="t.model_url" [class.image]="!t.model_url && t.preview_url" [class.empty]="!t.model_url && !t.preview_url">{{ t.model_url ? 'Modelo' : (t.preview_url ? 'Imagen' : 'Sin asset') }}</span>
+          </div>
+          <p class="desc" *ngIf="t.description">{{ t.description }}</p>
+        </ion-label>
       </ion-item>
     </ion-list>
     <ng-template #emptyTpl>
@@ -30,5 +34,9 @@
     <ion-fab-button routerLink="/upload">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
+    <ion-fab-button color="medium" (click)="refresh()">
+      <ion-icon name="refresh"></ion-icon>
+    </ion-fab-button>
   </ion-fab>
+  </div>
 </ion-content>

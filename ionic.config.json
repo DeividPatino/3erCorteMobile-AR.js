@@ -1,0 +1,7 @@
+{
+  "name": "AR.js3erCorte",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

@@ -1,0 +1,6 @@
+<ion-button [color]="color" [expand]="expand" [fill]="fill" [disabled]="disabled || loading" (click)="onClick($event)">
+  <ng-container *ngIf="!loading; else loadingTpl">{{ label }}</ng-container>
+  <ng-template #loadingTpl>
+    <ion-spinner name="dots"></ion-spinner>
+  </ng-template>
+</ion-button>

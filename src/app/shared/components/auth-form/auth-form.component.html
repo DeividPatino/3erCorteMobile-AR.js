@@ -1,0 +1,13 @@
+<ion-item>
+  <ion-label position="floating">Correo</ion-label>
+  <ion-input [(ngModel)]="email" type="email"></ion-input>
+</ion-item>
+
+<ion-item>
+  <ion-label position="floating">Contraseña</ion-label>
+  <ion-input [(ngModel)]="password" type="password"></ion-input>
+</ion-item>
+
+<app-button class="ion-margin-top" [label]="actionLabel" (pressed)="doSubmit()" [loading]="loading"></app-button>
+
+<ion-button *ngIf="altRoute && altLabel" expand="block" fill="clear" [routerLink]="altRoute">{{ altLabel }}</ion-button>

@@ -7,8 +7,13 @@
 <ion-content class="ion-padding">
 
   <ion-item>
-    <ion-label position="floating">Nombre del Target</ion-label>
-    <ion-input [(ngModel)]="targetName"></ion-input>
+    <ion-label position="floating">Nombre del Target (obligatorio)</ion-label>
+    <ion-input [(ngModel)]="targetName" placeholder="Ej: Logo Empresa" required></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="floating">Descripción (opcional)</ion-label>
+    <ion-textarea auto-grow="true" [(ngModel)]="description" placeholder="Breve nota"></ion-textarea>
   </ion-item>
 
   <ion-item>
@@ -17,7 +22,7 @@
   </ion-item>
 
   <ion-item>
-    <ion-label>Archivo PAT / NFT</ion-label>
+    <ion-label>Archivo PAT / NFT (marker)</ion-label>
     <input type="file" (change)="onFileSelected($event)">
   </ion-item>
 

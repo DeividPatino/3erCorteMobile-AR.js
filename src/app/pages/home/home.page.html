@@ -13,7 +13,8 @@
       <ion-item *ngFor="let t of targets" (click)="openAR(t)">
         <ion-label>
           <h2>{{ t.name }}</h2>
-          <p>{{ t.marker_url }}</p>
+          <p *ngIf="t.description">{{ t.description }}</p>
+          <p class="url" *ngIf="t.marker_url">{{ t.marker_url }}</p>
         </ion-label>
         <ion-avatar slot="end" *ngIf="t.preview_url">
           <img [src]="t.preview_url" alt="preview" />

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { SupabaseService } from '../services/supabase.service';
+import { FirebaseAuthService } from '../services/firebase-auth.service';
 
 @Component({
   selector: 'app-upload',
@@ -12,8 +13,9 @@ export class UploadPage {
   previewFile!: File;
   pattFile!: File;
   uploading = false;
+  description = '';
 
-  constructor(private supabaseService: SupabaseService) {}
+  constructor(private supabaseService: SupabaseService, private firebaseAuth: FirebaseAuthService) {}
 
   onPreviewSelected(event: any) {
     const file = event?.target?.files?.[0];
@@ -27,37 +29,65 @@ export class UploadPage {
 
   async upload() {
     if (!this.targetName || !this.previewFile || !this.pattFile) {
-      alert('Debe llenar todos los campos.');
+      const faltan: string[] = [];
+      if (!this.targetName) faltan.push('nombre');
+      if (!this.previewFile) faltan.push('preview');
+      if (!this.pattFile) faltan.push('archivo AR (.patt)');
+      alert('Faltan: ' + faltan.join(', '));
       return;
     }
 
     this.uploading = true;
     try {
       const timestamp = Date.now();
+        console.log('Subiendo preview:', {
+          name: this.previewFile.name,
+          size: this.previewFile.size,
+          type: this.previewFile.type
+        });
       // 1. Subir preview
       const previewPath = `previews/${timestamp}-${this.previewFile.name}`;
       const { error: previewError } = await this.supabaseService.uploadAsset(this.previewFile, previewPath);
       if (previewError) {
-        alert('Error subiendo preview');
+        console.error('Preview upload error:', previewError);
+        const msg = (previewError.message || previewError).toString();
+        if (msg.includes('row-level security')) {
+          alert('Error RLS al subir preview: falta política INSERT en storage.objects para bucket ar-assets. Sigue las instrucciones de políticas.');
+        } else {
+          alert('Error subiendo preview: ' + msg);
+        }
         return;
       }
       const previewURL = this.supabaseService.getPublicUrl(previewPath);
 
       // 2. Subir archivo AR (PAT/NFT)
+        console.log('Subiendo marker:', {
+          name: this.pattFile.name,
+          size: this.pattFile.size,
+          type: this.pattFile.type
+        });
       const pattPath = `targets/${timestamp}-${this.pattFile.name}`;
       const { error: pattError } = await this.supabaseService.uploadAsset(this.pattFile, pattPath);
       if (pattError) {
-        alert('Error subiendo archivo AR');
+        console.error('Marker upload error:', pattError);
+        const msg = (pattError.message || pattError).toString();
+        if (msg.includes('row-level security')) {
+          alert('Error RLS al subir marker: falta política INSERT en storage.objects para bucket ar-assets.');
+        } else {
+          alert('Error subiendo archivo AR: ' + msg);
+        }
         return;
       }
       const markerURL = this.supabaseService.getPublicUrl(pattPath);
 
-      // 3. Insertar registro (description opcional vacío)
-      await this.supabaseService.addTarget(this.targetName, markerURL, previewURL, '');
+      // 3. Insertar registro con descripción + user_id de Firebase
+      const uid = this.firebaseAuth.currentUser()?.uid || null;
+      await this.supabaseService.addTarget(this.targetName, markerURL, previewURL, this.description.trim(), uid);
       alert('Target subido correctamente');
       this.targetName = '';
       this.previewFile = undefined as any;
       this.pattFile = undefined as any;
+      this.description = '';
     } catch (e: any) {
       alert(e?.message || 'Error desconocido');
     } finally {

@@ -3,10 +3,6 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   {
-    path: 'home',
-    loadChildren: () => import('./pages/home/home.module').then( m => m.HomePageModule)
-  },
-  {
     path: '',
     redirectTo: 'home',
     pathMatch: 'full'
@@ -24,9 +20,10 @@ const routes: Routes = [
     loadChildren: () => import('./upload/upload.module').then( m => m.UploadPageModule)
   },
   {
-    path: 'home',
-    loadChildren: () => import('./pages/home/home.module').then( m => m.HomePageModule)
+    path: 'ar',
+    loadChildren: () => import('./pages/ar/ar.module').then( m => m.ArPageModule)
   },
+  // single home route kept above
 ];
 
 @NgModule({

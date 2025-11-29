@@ -37,10 +37,11 @@ export class SupabaseService {
     return data;
   }
 
-  async addTarget(name: string, descriptor: string, preview: string) {
+  async addTarget(name: string, markerUrl: string, preview: string, description: string = '') {
     const { data, error } = await this.supabase.from('targets').insert({
       name,
-      descriptor_url: descriptor,
+      description,
+      marker_url: markerUrl,
       preview_url: preview
     }).select('*');
 

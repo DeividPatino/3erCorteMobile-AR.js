@@ -50,10 +50,10 @@ export class UploadPage {
         alert('Error subiendo archivo AR');
         return;
       }
-      const pattURL = this.supabaseService.getPublicUrl(pattPath);
+      const markerURL = this.supabaseService.getPublicUrl(pattPath);
 
-      // 3. Insertar registro
-      await this.supabaseService.addTarget(this.targetName, pattURL, previewURL);
+      // 3. Insertar registro (description opcional vacío)
+      await this.supabaseService.addTarget(this.targetName, markerURL, previewURL, '');
       alert('Target subido correctamente');
       this.targetName = '';
       this.previewFile = undefined as any;

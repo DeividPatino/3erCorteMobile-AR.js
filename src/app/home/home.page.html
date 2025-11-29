@@ -1,3 +1,4 @@
+<!--
 <ion-header>
   <ion-toolbar color="primary">
     <ion-title>Targets AR</ion-title>
@@ -9,7 +10,7 @@
     <ion-spinner name="dots"></ion-spinner>
   </ng-container>
   <ng-template #listTpl>
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+    <div>
       <ion-text *ngIf="uid">Vista: {{ filterMine ? 'Mis Targets' : 'Todos' }}</ion-text>
       <ion-button *ngIf="uid" size="small" (click)="toggleFilterMine()">{{ filterMine ? 'Ver Todos' : 'Ver Mis Targets' }}</ion-button>
     </div>
@@ -18,7 +19,7 @@
         <ion-label>
           <h2>{{ t.name }}</h2>
           <p>{{ t.description || 'Sin descripción' }}</p>
-          <p *ngIf="t.model_url" style="font-size:12px;color: var(--ion-color-success);">Modelo 3D listo</p>
+          <p *ngIf="t.model_url">Modelo 3D listo</p>
         </ion-label>
         <ion-avatar slot="end" *ngIf="t.preview_url">
           <img [src]="t.preview_url" alt="preview" />
@@ -36,3 +37,4 @@
     </ion-fab-button>
   </ion-fab>
 </ion-content>
+-->

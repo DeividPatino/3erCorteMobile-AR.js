@@ -6,27 +6,27 @@ ion-content { --background: transparent; background: transparent; }
 
 /* Forzar video a cubrir viewport; canvas transparente y debajo */
 video, .arjs-video {
-	position:fixed !important;
-	top:0 !important; left:0 !important;
-	width:100vw !important; height:100vh !important;
-	object-fit:cover !important;
-	background:#000 !important;
-	z-index:10 !important;
+	position:fixed;
+	top:0; left:0;
+	width:100vw; height:100vh;
+	object-fit:cover;
+	background:#000;
+	z-index:10;
 }
 
 canvas, .a-canvas {
-	position:fixed !important;
-	top:0 !important; left:0 !important;
-	width:100vw !important; height:100vh !important;
-	background:transparent !important;
-	opacity: 0 !important; /* ocultar WebGL para evitar franjas negras */
-	z-index:0 !important;
-	pointer-events: none !important;
-	display: block !important;
+	position:fixed;
+	top:0; left:0;
+	width:100vw; height:100vh;
+	background:transparent;
+	opacity: 0; /* ocultar WebGL para evitar franjas negras */
+	z-index:0;
+	pointer-events: none;
+	display: block;
 }
 
 /* Asegurar escena transparente para evitar bloque negro */
-a-scene { background:transparent !important; }
+a-scene { background:transparent; }
 
 /* Overlay UI placeholder (si agregas botones flotantes) */
 .ar-overlay-controls {

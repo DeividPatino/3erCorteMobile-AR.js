@@ -30,4 +30,8 @@ export class FirebaseAuthService {
   currentUser() {
     return this.auth.currentUser;
   }
+
+  getCurrentUser() {
+    return this.auth.currentUser;
+  }
 }

@@ -3,7 +3,8 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 @Component({
   selector: 'app-button',
   templateUrl: './app-button.component.html',
-  styleUrls: ['./app-button.component.scss']
+  styleUrls: ['./app-button.component.scss'],
+  standalone: false,
 })
 export class AppButtonComponent {
   @Input() label = 'Enviar';

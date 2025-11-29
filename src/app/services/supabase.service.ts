@@ -19,6 +19,14 @@ export class SupabaseService {
       .upload(path, file, { upsert: true });
   }
 
+  getPublicUrl(path: string) {
+    return this.supabase
+      .storage
+      .from('ar-assets')
+      .getPublicUrl(path)
+      .data.publicUrl;
+  }
+
   async getTargets() {
     const { data, error } = await this.supabase
       .from('targets')

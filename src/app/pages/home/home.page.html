@@ -1,0 +1,33 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Targets AR</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ng-container *ngIf="loading; else listTpl">
+    <ion-spinner name="dots"></ion-spinner>
+  </ng-container>
+  <ng-template #listTpl>
+    <ion-list *ngIf="targets.length; else emptyTpl">
+      <ion-item *ngFor="let t of targets" (click)="openAR(t)">
+        <ion-label>
+          <h2>{{ t.name }}</h2>
+          <p>{{ t.descriptor_url }}</p>
+        </ion-label>
+        <ion-avatar slot="end" *ngIf="t.preview_url">
+          <img [src]="t.preview_url" alt="preview" />
+        </ion-avatar>
+      </ion-item>
+    </ion-list>
+    <ng-template #emptyTpl>
+      <p>No hay targets aún.</p>
+    </ng-template>
+  </ng-template>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button routerLink="/upload">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

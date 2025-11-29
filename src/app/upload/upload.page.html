@@ -1,0 +1,31 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Subir Target AR</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <ion-item>
+    <ion-label position="floating">Nombre del Target</ion-label>
+    <ion-input [(ngModel)]="targetName"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>Imagen (preview)</ion-label>
+    <input type="file" (change)="onPreviewSelected($event)">
+  </ion-item>
+
+  <ion-item>
+    <ion-label>Archivo PAT / NFT</ion-label>
+    <input type="file" (change)="onFileSelected($event)">
+  </ion-item>
+
+  <ion-button expand="block" class="ion-margin-top" (click)="upload()" [disabled]="uploading">
+    <ng-container *ngIf="!uploading; else loadingTpl">Subir Target</ng-container>
+  </ion-button>
+  <ng-template #loadingTpl>
+    <ion-spinner name="dots"></ion-spinner>
+  </ng-template>
+
+</ion-content>

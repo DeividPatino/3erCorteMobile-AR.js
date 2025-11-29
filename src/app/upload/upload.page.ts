@@ -12,6 +12,7 @@ export class UploadPage {
   targetName = '';
   previewFile!: File;
   pattFile!: File;
+  modelFile!: File;
   uploading = false;
   description = '';
 
@@ -25,6 +26,11 @@ export class UploadPage {
   onFileSelected(event: any) {
     const file = event?.target?.files?.[0];
     if (file) this.pattFile = file;
+  }
+
+  onModelSelected(event: any) {
+    const file = event?.target?.files?.[0];
+    if (file) this.modelFile = file;
   }
 
   async upload() {
@@ -80,13 +86,44 @@ export class UploadPage {
       }
       const markerURL = this.supabaseService.getPublicUrl(pattPath);
 
-      // 3. Insertar registro con descripción + user_id de Firebase
+      // 3. Subir modelo GLTF/GLB opcional
+      let modelURL: string | null = null;
+      if (this.modelFile) {
+        console.log('Subiendo modelo 3D:', {
+          name: this.modelFile.name,
+          size: this.modelFile.size,
+          type: this.modelFile.type
+        });
+        const modelPath = `models/${timestamp}-${this.modelFile.name}`;
+        const { error: modelError } = await this.supabaseService.uploadAsset(this.modelFile, modelPath);
+        if (modelError) {
+          console.error('Model upload error:', modelError);
+          const msg = (modelError.message || modelError).toString();
+          if (msg.includes('row-level security')) {
+            alert('Error RLS al subir modelo: falta política INSERT en storage.objects para bucket ar-assets.');
+          } else {
+            alert('Error subiendo modelo 3D (se continuará sin modelo): ' + msg);
+          }
+        } else {
+          modelURL = this.supabaseService.getPublicUrl(modelPath);
+        }
+      }
+
+      // 4. Insertar registro con descripción + user_id + model_url (si existe)
       const uid = this.firebaseAuth.currentUser()?.uid || null;
-      await this.supabaseService.addTarget(this.targetName, markerURL, previewURL, this.description.trim(), uid);
+      const inserted = await this.supabaseService.addTarget(this.targetName, markerURL, previewURL, this.description.trim(), uid);
+      if (modelURL && inserted?.[0]?.id) {
+        try {
+          await this.supabaseService.updateTarget(inserted[0].id, { model_url: modelURL });
+        } catch (e) {
+          console.warn('No se pudo actualizar model_url tras insert:', e);
+        }
+      }
       alert('Target subido correctamente');
       this.targetName = '';
       this.previewFile = undefined as any;
       this.pattFile = undefined as any;
+      this.modelFile = undefined as any;
       this.description = '';
     } catch (e: any) {
       alert(e?.message || 'Error desconocido');

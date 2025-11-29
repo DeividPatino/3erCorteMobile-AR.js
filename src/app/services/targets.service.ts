@@ -24,4 +24,30 @@ export class TargetsService {
     }
     return data || [];
   }
+
+  async getTargetsByUser(userId: string) {
+    const { data, error } = await this.supabase
+      .from('targets')
+      .select('*')
+      .eq('user_id', userId)
+      .order('created_at', { ascending: false });
+    if (error) {
+      console.error('[TargetsService] getTargetsByUser error', error);
+      return [] as any[];
+    }
+    return data || [];
+  }
+
+  async getTargetById(id: number) {
+    const { data, error } = await this.supabase
+      .from('targets')
+      .select('*')
+      .eq('id', id)
+      .single();
+    if (error) {
+      console.error('[TargetsService] getTargetById error', error);
+      return null;
+    }
+    return data;
+  }
 }

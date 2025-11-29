@@ -26,6 +26,11 @@
     <input type="file" (change)="onFileSelected($event)">
   </ion-item>
 
+  <ion-item>
+    <ion-label>Modelo 3D (GLTF / GLB opcional)</ion-label>
+    <input type="file" accept=".gltf,.glb" (change)="onModelSelected($event)">
+  </ion-item>
+
   <ion-button expand="block" class="ion-margin-top" (click)="upload()" [disabled]="uploading">
     <ng-container *ngIf="!uploading; else loadingTpl">Subir Target</ng-container>
   </ion-button>

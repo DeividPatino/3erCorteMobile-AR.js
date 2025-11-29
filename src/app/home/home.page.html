@@ -1,0 +1,38 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Targets AR</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ng-container *ngIf="loading; else listTpl">
+    <ion-spinner name="dots"></ion-spinner>
+  </ng-container>
+  <ng-template #listTpl>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+      <ion-text *ngIf="uid">Vista: {{ filterMine ? 'Mis Targets' : 'Todos' }}</ion-text>
+      <ion-button *ngIf="uid" size="small" (click)="toggleFilterMine()">{{ filterMine ? 'Ver Todos' : 'Ver Mis Targets' }}</ion-button>
+    </div>
+    <ion-list *ngIf="targets.length; else emptyTpl">
+      <ion-item *ngFor="let t of targets" (click)="openAR(t)">
+        <ion-label>
+          <h2>{{ t.name }}</h2>
+          <p>{{ t.description || 'Sin descripción' }}</p>
+          <p *ngIf="t.model_url" style="font-size:12px;color: var(--ion-color-success);">Modelo 3D listo</p>
+        </ion-label>
+        <ion-avatar slot="end" *ngIf="t.preview_url">
+          <img [src]="t.preview_url" alt="preview" />
+        </ion-avatar>
+      </ion-item>
+    </ion-list>
+    <ng-template #emptyTpl>
+      <p>No hay targets aún.</p>
+    </ng-template>
+  </ng-template>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button routerLink="/upload">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>
